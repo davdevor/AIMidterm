@@ -16,6 +16,10 @@ def read_data(filename,attributes):
     return data
 
 
+def linear_interpolation(x0,x,x1,y0,y1):
+    return (y0*(x1-x) + y1*(x-x0)) / (x1 - x0)
+
+    
 def regression():
     attributes = ['Pclass','Sex','Age','Fare','Survived']
     data = read_data('../titanic_data.csv',attributes)
