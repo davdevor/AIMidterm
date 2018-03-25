@@ -2,6 +2,8 @@ import csv
 from sklearn import linear_model
 
 
+# this method reads in the csv file
+# it returns a list of dictionaries with the attributes specified in the parameter
 def read_data(filename,attributes):
     file = open(filename,encoding='UTF-8')
     reader = csv.DictReader(file)
@@ -21,10 +23,12 @@ def linear_interpolation(x0,x,x1,y0,y1):
     return (y0*(x1-x) + y1*(x-x0)) / (x1 - x0)
 
 
+# this method predicts using stochiastic gradient descent
 def gradient_descent():
     attributes = ['Pclass', 'Sex', 'Age', 'Fare', 'Survived']
     data = read_data('../titanic_data.csv', attributes)
     for x in data:
+        #converts males to 0 females to 1.0
         x['Sex'] = 0.0 if x['Sex'] == 'Male' else 1.0
         x['Age'] = 10.0 if x['Age'] == '' else float(x['Age'])
     for x in data:
@@ -39,6 +43,7 @@ def gradient_descent():
                                      learning_rate='optimal', loss='huber', max_iter=100000,
                                      n_jobs=1, penalty='l2', power_t=0.5, random_state=None,
                                      shuffle=True, tol=None, verbose=0, warm_start=False)
+    #train on first 70% of data
     for x in range(int(len(data) * .7)):
         y_list.append(float(data[x].get('Survived')))
         temp_list = []
@@ -52,7 +57,7 @@ def gradient_descent():
     test_list = []
     test_answers = []
     thirty_percent = int(len(data) * .3)
-    # seventy_percent = int(len(data)*.7)
+    # test on last 30% of data
     for x in range(len(data) - 1, len(data) - thirty_percent, -1):
         temp_list = []
         test_answers.append(int(data[x]['Survived']))
@@ -71,10 +76,13 @@ def gradient_descent():
             count += 1
     print("Percent correct " + str(count / thirty_percent))
 
+
+# this method predicts using linear regression
 def regression():
     attributes = ['Pclass','Sex','Age','Fare','Survived']
     data = read_data('../titanic_data.csv',attributes)
     for x in data:
+        # converts males to 0 females to 1.0
         x['Sex'] = 0.0 if x['Sex'] == 'Male' else 1.0
         x['Age'] = 10.0 if x['Age'] == '' else float(x['Age'])
     for x in data:
@@ -84,6 +92,7 @@ def regression():
     x_list = []
     y_list = []
 
+    #train on first 70% of data
     for x in range(int(len(data) * .7)):
         y_list.append(float(data[x].get('Survived')))
         temp_list = []
@@ -98,7 +107,7 @@ def regression():
     test_list = []
     test_answers = []
     thirty_percent = int(len(data)*.3)
-    # seventy_percent = int(len(data)*.7)
+    # test on last 30% of data
     for x in range(len(data)-1,len(data) - thirty_percent, -1):
         temp_list = []
         test_answers.append(int(data[x]['Survived']))
