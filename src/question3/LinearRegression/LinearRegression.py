@@ -133,10 +133,15 @@ def main():
     data = read_data('../titanic_data.csv', attributes)
     temp = []
     attributes.remove('Survived')
+
+    # get the data for linear interpolation
+    # i am using fare as the x value
     for x in data:
         if x['Age'] != '':
             temp.append([x['Fare'], x['Age']])
+    # the fares needs to be sorted in non decreasing order
     temp = sorted(temp)
+    # put data in global list to be used every time linear interpolation method is called
     for x in temp:
         xp.append(float(x[0]))
         fp.append(float(x[1]))
