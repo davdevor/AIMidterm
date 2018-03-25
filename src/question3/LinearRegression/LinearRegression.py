@@ -147,5 +147,8 @@ def main():
         fp.append(float(x[1]))
     gradient_descent(data, attributes)
     print('\n')
+    attributes = ['Pclass', 'Sex', 'Age', 'Fare', 'Survived']
+    data = read_data('../titanic_data.csv', attributes)
+    attributes.remove('Survived')
     regression(data, attributes)
 main()
