@@ -31,7 +31,7 @@ def gradient_descent(data,attributes):
 
     for x in data:
         #converts males to 0 females to 1.0
-        x['Sex'] = 0.0 if x['Sex'] == 'Male' else 1.0
+        x['Sex'] = 0.0 if x['Sex'] == 'male' else 1.0
         if x['Age'] == '':
             x['Age'] = round(linear_interpolation(float(x['Fare'])))
     for x in data:
@@ -84,7 +84,7 @@ def regression(data,attributes):
 
     for x in data:
         # converts males to 0 females to 1.0
-        x['Sex'] = 0.0 if x['Sex'] == 'Male' else 1.0
+        x['Sex'] = 0.0 if x['Sex'] == 'male' else 1.0
         if x['Age'] == '':
             x['Age'] = round(linear_interpolation(float(x['Fare'])))
     for x in data:
