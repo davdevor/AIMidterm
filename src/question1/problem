@@ -1,0 +1,30 @@
+Search with heuristics:  Implementing A-star(A*) to solve N-Puzzle
+
+What is N-Puzzle?
+N-Puzzle or sliding puzzle is a popular puzzle that consists of N tiles where N can be 8, 15, 24 and so on. The puzzle is divided into √(N+1) rows and √(N+1) columns eg. 15-Puzzle will have 4 rows and 4 columns, an 8-Puzzle will have 3 rows and 3 columns and so on. The puzzle consists of one empty space where the tiles can be moved and thus the puzzle is solved when a particular goal pattern is formed like the following is one of the variant goal pattern.
+
+
+Write code to solve the problem using following heuristics.
+
+1) Manhattan Distance/Taxicab geometry : Manhattan Distance of a tile is the distance or the number of slides/tiles away it is from it’s goal state.Thus, for a certain state the Manhattan distance will be the sum of the Manhattan distances of all the tiles except the blank tile.
+
+2) Linear Conflict + Manhattan Distance/Taxicab geometry 
+
+Two tiles ‘a’ and ‘b’ are in a linear conflict if they are in the same row or column, also their goal positions are in the same row or column and the goal position of one of the tiles is blocked by the other tile in that row.
+
+
+In this instance we see that tile 4 and tile 1 are in a linear conflict since we see that tile 4 is in the path of the goal position of tile 1 in the same column or vice versa, also tile 8 and tile 7 are in a linear conflict as 8 stands in the path of the goal position of tile 7 in the same row. Hence here we see there are 2 linear conflicts.
+
+As we know that heuristic value is the value that gives a theoretical least value of the number of moves required to solve the problem we can see that one linear conflict causes two moves to be added to the final heuristic value(h) as one tile will have to move aside in order to make way for the tile that has the goal state behind the moved tile and then back resulting in 2 moves which retains the admissibility of the heuristic.
+
+Linear conflict is always combined with the Manhattan distance to get the heuristic value of that state and each linear conflict will add 2 moves to the Manhattan distance as explained above, so the ‘h’ value for the above state will be
+
+Manhattan distance + 2*number of linear conflicts
+Manhattan distance for the state is: 10
+Final h: 10 + 2*2= 14
+
+Linear Conflict combined with Manhattan distance is significantly way faster than the heuristics explained above and 4 x 4 puzzles can be solved using it in a decent amount of time. Just as the rest of the heuristics above we do not consider the blank tile when calculating linear conflicts.
+
+Write a program to solve the N-puzzle using A* algorithms and given heuristics. 
+
+Turn in your source program with outputs for N = 4, 8, 15 and 24.  You should have 8 separate outputs, one set of outputs for heuristic 1 and the other for the heuristic 2. 

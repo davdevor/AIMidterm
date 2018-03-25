@@ -1,0 +1,4 @@
+Develop a predictive model using NN for Titanic data. Preview the documentGiven Pclass, sex, age, and fare, you are to develop a predictive model to predict if the passenger survived or not. 
+
+There are about 890 records in the file, perform 70-30 split for training and testing data. Interpolate your data for any missing values using linear interpolation 
+What is the accuracy of your model? 
