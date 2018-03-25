@@ -1,0 +1,33 @@
+Card splitting with a GA
+
+You have 10 cards numbered 1 to 10
+You have to divide them into two piles so that:
+The sum of the first pile is as close as possible to 36 (target sum).
+And the product of all in the second pile is as close as possible to 360 (target prod).
+Start State: 10 cards numbered 1 through 10
+
+Goal State : 
+
+Pile 0 : 5 cards (not always 5), some combination of cards such that they all add up (sum) to 36. 
+
+Pile 1 : 5 cards (not always 5), some combination of cards such that they all multiply up (product) to 360, or as close as possible to 360. 
+
+Generate a population of 30, so it is a 30 x 10 array. Randomly Initialize each individual to be a bit string, that is 0's and 1's depending on what pile the card belongs to. The column position of the array tells what card it is. 
+
+Use combined error as the fitness function. 
+
+loop though all genes for this individual of the population {
+
+        if the gene value is 0, then put it in the sum (pile 0), and calculate sum
+        (otherwise)if the gene value is 1, then put it in the product (pile 1), and calculate sum
+}
+
+sum_error = (calculated sum - target sum)/ target sum
+prod_error = (calculated prod - target prod)/ target prod
+combined error = abs(sum_error) + abs(prod_error)
+
+
+If the combined error score is 0.0, then we have a good GA which has solved the 
+problem domain.
+
+
