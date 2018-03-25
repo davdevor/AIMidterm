@@ -1,6 +1,8 @@
 import csv
+import numpy as np
 from sklearn import linear_model
-
+fp = []
+xp = []
 
 # this method reads in the csv file
 # it returns a list of dictionaries with the attributes specified in the parameter
@@ -19,22 +21,22 @@ def read_data(filename,attributes):
     return data
 
 
-def linear_interpolation(x0,x,x1,y0,y1):
-    return (y0*(x1-x) + y1*(x-x0)) / (x1 - x0)
+def linear_interpolation(x):
+    z = np.interp(x, xp, fp)
+    return z
 
 
 # this method predicts using stochiastic gradient descent
-def gradient_descent():
-    attributes = ['Pclass', 'Sex', 'Age', 'Fare', 'Survived']
-    data = read_data('../titanic_data.csv', attributes)
+def gradient_descent(data,attributes):
+
     for x in data:
         #converts males to 0 females to 1.0
         x['Sex'] = 0.0 if x['Sex'] == 'Male' else 1.0
-        x['Age'] = 10.0 if x['Age'] == '' else float(x['Age'])
+        if x['Age'] == '':
+            x['Age'] = round(linear_interpolation(float(x['Fare'])))
     for x in data:
         for y in attributes:
             x[y] = float(x[y])
-    attributes.remove('Survived')
     x_list = []
     y_list = []
 
@@ -78,17 +80,16 @@ def gradient_descent():
 
 
 # this method predicts using linear regression
-def regression():
-    attributes = ['Pclass','Sex','Age','Fare','Survived']
-    data = read_data('../titanic_data.csv',attributes)
+def regression(data,attributes):
+
     for x in data:
         # converts males to 0 females to 1.0
         x['Sex'] = 0.0 if x['Sex'] == 'Male' else 1.0
-        x['Age'] = 10.0 if x['Age'] == '' else float(x['Age'])
+        if x['Age'] == '':
+            x['Age'] = round(linear_interpolation(float(x['Fare'])))
     for x in data:
         for y in attributes:
             x[y] = float(x[y])
-    attributes.remove('Survived')
     x_list = []
     y_list = []
 
@@ -126,6 +127,20 @@ def regression():
             count += 1
     print("Percent correct " + str(count/thirty_percent))
 
-gradient_descent()
-print('\n')
-regression()
+
+def main():
+    attributes = ['Pclass', 'Sex', 'Age', 'Fare', 'Survived']
+    data = read_data('../titanic_data.csv', attributes)
+    temp = []
+    attributes.remove('Survived')
+    for x in data:
+        if x['Age'] != '':
+            temp.append([x['Fare'], x['Age']])
+    temp = sorted(temp)
+    for x in temp:
+        xp.append(float(x[0]))
+        fp.append(float(x[1]))
+    gradient_descent(data, attributes)
+    print('\n')
+    regression(data, attributes)
+main()
