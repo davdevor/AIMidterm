@@ -41,6 +41,7 @@ class GA:
 
         self.averageFitness /= self.popSize
 
+    # determines the offspring of the population
     def offspring(self):
         prior = 0.0
         index = 0
@@ -62,6 +63,7 @@ class GA:
             else:
                 index += 1
 
+    # copies over the population based on children array
     def create_new_population(self):
         index = 0
         temp_population = []
@@ -74,13 +76,14 @@ class GA:
                 temp_population.append(temp)
         self.population = temp_population
 
-    # this method randomly mutates the population by adding or subtracting a value to
+    # this method randomly mutates the population by randomly flipping a position to 0 or 1
     def mutation(self):
         random.seed()
         for x in range(self.popSize):
             flips = random.randint(0,self.memberLength - 1)
             for y in range(flips):
                 p = random.randint(0,self.memberLength - 1)
+                # flip the value
                 self.population[x][p] = 0 if self.population[x][p] == 1 else 1
 
     # initializes the population to random values
@@ -91,7 +94,6 @@ class GA:
             for y in range(self.memberLength):
                 temp.append(random.randint(0,1))
             self.population.append(temp)
-
 
     # this method clears data that needs to be reset
     def clear_data(self):
