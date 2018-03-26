@@ -1,5 +1,7 @@
 import sys
 import random
+
+
 class GA:
 
     def __init__(self):
@@ -20,9 +22,9 @@ class GA:
         for x in self.population:
             for y in range(self.memberLength):
                 if x[y] == 0:
-                    sum += y
+                    sum += y+1
                 else:
-                    product *= y
+                    product *= y+1
             sum_error = sum - self.targetSum
             prod_error = (product - self.targetProduct) / self.targetProduct
             combined_error = abs(sum_error) + abs(prod_error)
@@ -76,7 +78,7 @@ class GA:
     def mutation(self):
         random.seed()
         for x in range(self.popSize):
-            flips = random.randint(1,self.memberLength - 1)
+            flips = random.randint(0,self.memberLength - 1)
             for y in range(flips):
                 p = random.randint(0,self.memberLength - 1)
                 self.population[x][p] = 0 if self.population[x][p] == 1 else 1
