@@ -83,7 +83,7 @@ def run_neural_network(data,attributes):
 
 def main():
     attributes = ['Pclass', 'Sex', 'Age', 'Fare', 'Survived']
-    data = read_data('../titanic_data.csv', attributes)
+    data = read_data('titanic_data.csv', attributes)
     temp = []
     attributes.remove('Survived')
 
