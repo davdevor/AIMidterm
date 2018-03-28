@@ -1,4 +1,4 @@
-
+import bisect
 
 class Node:
 
@@ -205,27 +205,52 @@ class NPuzzle:
         if self.is_goal(self.root):
             return self.path(self.root)
         q = [self.root]
-        closed_list = []
         while len(q) != 0:
-            q.sort(key=lambda x: x.f)
             current_node = q.pop(0)
             if self.is_goal(current_node):
                 return self.path(current_node)
 
             states = self.generate_states(current_node)
-            xxxxx = 6
             for z in range(len(states)):
                 if self.is_goal(current_node):
                     return self.path(current_node)
                 states[z].heuristic = self.heuristic(states[z])
                 states[z].f = states[z].heuristic + states[z].g
-                if len([x for x in q if x.grid == states[z].grid]) != 0:
+                pos = self.binary_search(q,states[z])
+                if pos > -1:
+                    if q[pos].f > states[z].f:
+                        q[pos].f = states[z].f
+                        q[pos].g = states[z].g
+                        q[pos].heuristic = states[z].heuristic
                     continue
                 else:
-                    q.append(states[z])
+                    self.my_insort_left(q,states[z])
 
         return []
 
+    def binary_search(self, l, x):
+        lo = 0
+        hi = len(l)
+        while(lo<hi):
+            mid = (lo+hi)//2
+            if(l[mid].grid < x.grid):
+                lo = mid +1
+            elif l[mid].grid > x.grid:
+                hi = mid
+            else:
+                return mid
+        return -1
+
+    def my_insort_left(self, a, x, lo=0, hi=None):
+        if hi is None:
+            hi = len(a)
+        while lo < hi:
+            mid = (lo+hi)//2
+            if a[mid].f < x.f:
+                lo = mid + 1
+            else:
+                hi = mid
+        a.insert(lo,x)
     @staticmethod
     def manhattan(coord1, coord2):
         return abs(coord1[0]-coord2[0])+abs(coord1[1]-coord2[1])
